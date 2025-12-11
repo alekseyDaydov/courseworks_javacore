@@ -5,7 +5,7 @@ import pro.sky.java.course2.examinerservice.domain.Question;
 import java.util.Collection;
 
 public interface QuestionServices {
-    Question add(String question);
+    Question add(String question, String answer);
 
     Question add(Question question);
 
@@ -13,5 +13,5 @@ public interface QuestionServices {
 
     Collection<Question> getAll();
 
-    Question getRandomQuestion();
+    Integer getRandomQuestion();
 }

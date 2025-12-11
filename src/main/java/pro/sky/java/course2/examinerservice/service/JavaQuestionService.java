@@ -7,32 +7,31 @@ import java.util.*;
 public class JavaQuestionService implements QuestionServices {
    private Set<Question> questions = new HashSet<>();
     @Override
-    public Question add(String question) {
-        return null;
+    public Question add(String question, String answer) {
+         questions.add(new Question(question,answer));
+        return  null;
     }
 
     @Override
     public Question add(Question question) {
+        questions.add(question);
         return null;
     }
 
     @Override
     public Question remove(Question question) {
+        questions.remove(question);
         return null;
     }
 
     @Override
     public Collection<Question> getAll() {
-        return List.of();
+        return questions.stream().toList();
     }
 
     @Override
-    public Question getRandomQuestion() {
+    public Integer getRandomQuestion() {
         Random random = new Random();
-        int randomNumber = random.nextInt(Integer.MAX_VALUE);
-
-        Iterator<Question> iterator = questions.iterator();
-//       iterator.next().
-        return null;
+        return random.nextInt(Integer.MAX_VALUE);
     }
 }

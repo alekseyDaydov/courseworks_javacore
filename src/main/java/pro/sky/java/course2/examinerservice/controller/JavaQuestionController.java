@@ -8,7 +8,7 @@ import pro.sky.java.course2.examinerservice.service.QuestionServices;
 import java.util.Collection;
 
 @RestController
-@RequestMapping
+@RequestMapping("/exam/java")
 public class JavaQuestionController {
     private QuestionServices questionService;
 
@@ -17,11 +17,15 @@ public class JavaQuestionController {
     }
 
     QuestionServices addQuestion(String question, String answer) {
+         questionService.add(new Question(question,answer));
         return null;
     }
-
-    Collection<Question> getQuestions() {
+    QuestionServices removeQuestion(Question question) {
+        questionService.remove(question);
         return null;
+    }
+    Collection<Question> getQuestions() {
+        return questionService.getAll();
     }
 
 
