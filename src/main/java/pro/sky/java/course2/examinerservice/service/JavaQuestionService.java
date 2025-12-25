@@ -8,20 +8,21 @@ public class JavaQuestionService implements QuestionServices {
    private Set<Question> questions = new HashSet<>();
     @Override
     public Question add(String question, String answer) {
-         questions.add(new Question(question,answer));
-        return  null;
+        Question quest = new Question(question, answer);
+         questions.add(quest);
+        return quest;
     }
 
     @Override
     public Question add(Question question) {
         questions.add(question);
-        return null;
+        return question;
     }
 
     @Override
     public Question remove(Question question) {
         questions.remove(question);
-        return null;
+        return question;
     }
 
     @Override

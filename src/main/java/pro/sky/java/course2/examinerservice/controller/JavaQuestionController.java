@@ -15,15 +15,18 @@ public class JavaQuestionController {
     public JavaQuestionController(QuestionServices questionService) {
         this.questionService = questionService;
     }
-
+//   /add?question=QuestionText&answer=QuestionAnswer
     QuestionServices addQuestion(String question, String answer) {
          questionService.add(new Question(question,answer));
         return null;
     }
+   // /remove?question=QuestionText&answer=QuestionAnswer
+
     QuestionServices removeQuestion(Question question) {
         questionService.remove(question);
         return null;
     }
+
     Collection<Question> getQuestions() {
         return questionService.getAll();
     }
