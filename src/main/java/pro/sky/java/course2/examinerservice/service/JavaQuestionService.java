@@ -1,16 +1,20 @@
 package pro.sky.java.course2.examinerservice.service;
 
+import org.springframework.stereotype.Service;
 import pro.sky.java.course2.examinerservice.domain.Question;
 
 import java.util.*;
 
+@Service
 public class JavaQuestionService implements QuestionServices {
-   private Set<Question> questions = new HashSet<>();
+    private final Set<Question> questions = new HashSet<>();
+
+
     @Override
     public Question add(String question, String answer) {
-        Question quest = new Question(question, answer);
-         questions.add(quest);
-        return quest;
+        Question addQuest = new Question(question, answer);
+        questions.add(addQuest);
+        return addQuest;
     }
 
     @Override
@@ -21,6 +25,9 @@ public class JavaQuestionService implements QuestionServices {
 
     @Override
     public Question remove(Question question) {
+        if (!questions.contains(question)) {
+            throw new IllegalArgumentException("Нет такого вопроса");
+        }
         questions.remove(question);
         return question;
     }
@@ -31,8 +38,14 @@ public class JavaQuestionService implements QuestionServices {
     }
 
     @Override
-    public Integer getRandomQuestion() {
-        Random random = new Random();
-        return random.nextInt(Integer.MAX_VALUE);
+    public Question getRandomQuestion() {
+        //получил рандомное число
+        int numberQuestion = (int) (Math.random() * (Integer.MAX_VALUE));
+        for(int i = 0; i == numberQuestion; i++){
+
+        }
+        // беру коллекцию и выбираю данное число
+        questions.iterator();
+        return null;
     }
 }
