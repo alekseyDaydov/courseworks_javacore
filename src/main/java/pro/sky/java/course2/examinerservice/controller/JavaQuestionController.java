@@ -17,29 +17,26 @@ public class JavaQuestionController {
     public JavaQuestionController(QuestionServices questionService) {
         this.questionService = questionService;
     }
-    
-//   /add?question=QuestionText&answer=QuestionAnswer
-    @GetMapping("/add")
-    QuestionServices addQuestion(@RequestParam("question") String question,
-                                  @RequestParam("answer") String answer) {
-        Question quest = new Question(question, answer);
 
-//        return quest;
-          questionService.add(quest);
-        return (QuestionServices) quest;
+    //   /add?question=QuestionText&answer=QuestionAnswer
+    @GetMapping("/add")
+    Question addQuestion(@RequestParam("question") String question,
+                                 @RequestParam("answer") String answer) {
+        return questionService.add(question, answer);
     }
 
-   // /remove?question=QuestionText&answer=QuestionAnswer
-
-    QuestionServices removeQuestion(@RequestParam("question") String question,
+    // /remove?question=QuestionText&answer=QuestionAnswer
+    @GetMapping("/remove")
+    Question removeQuestion(@RequestParam("question") String question,
                                     @RequestParam("answer") String answer) {
         Question quest = new Question(question, answer);
         questionService.remove(quest);
-        return null;
-}
+        return quest;
+    }
+
+    @GetMapping()
     Collection<Question> getQuestions() {
         return questionService.getAll();
     }
-
 
 }

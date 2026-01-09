@@ -9,16 +9,12 @@ import java.util.*;
 public class JavaQuestionService implements QuestionServices {
     private final Set<Question> questions = new HashSet<>();
 
-
     @Override
     public Question add(String question, String answer) {
-        Question addQuest = new Question(question, answer);
-        questions.add(addQuest);
-        return addQuest;
+        return add(new Question(question, answer));
     }
 
-    @Override
-    public Question add(Question question) {
+    private Question add(Question question) {
         questions.add(question);
         return question;
     }
@@ -26,7 +22,7 @@ public class JavaQuestionService implements QuestionServices {
     @Override
     public Question remove(Question question) {
         if (!questions.contains(question)) {
-            throw new IllegalArgumentException("Нет такого вопроса");
+            throw new IllegalArgumentException("Невозможно удалить вопрос! Нет такого вопроса");
         }
         questions.remove(question);
         return question;
@@ -41,11 +37,17 @@ public class JavaQuestionService implements QuestionServices {
     public Question getRandomQuestion() {
         //получил рандомное число
         int numberQuestion = (int) (Math.random() * (Integer.MAX_VALUE));
-        for(int i = 0; i == numberQuestion; i++){
-
+        if (numberQuestion > questions.size()) {
+            throw new IllegalArgumentException("Нет вопроса с данным номером");
         }
         // беру коллекцию и выбираю данное число
-        questions.iterator();
-        return null;
+        Iterator<Question> iterator = questions.iterator();
+        Question question = new Question();
+        int i = 0;
+        while (i == numberQuestion) {
+            question = iterator.next();
+            i++;
+        }
+        return question;
     }
 }
