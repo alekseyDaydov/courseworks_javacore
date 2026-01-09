@@ -1,10 +1,11 @@
 package pro.sky.java.course2.examinerservice.service;
 
+import org.springframework.stereotype.Service;
 import pro.sky.java.course2.examinerservice.domain.Question;
 
 import java.util.Collection;
 import java.util.List;
-
+@Service
 public class ExaminerServiceImpl implements ExaminerService{
     private final QuestionServices questionServices;
 
