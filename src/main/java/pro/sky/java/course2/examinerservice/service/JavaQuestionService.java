@@ -14,7 +14,8 @@ public class JavaQuestionService implements QuestionServices {
         return add(new Question(question, answer));
     }
 
-    private Question add(Question question) {
+    @Override
+    public Question add(Question question) {
         questions.add(question);
         return question;
     }
@@ -36,7 +37,8 @@ public class JavaQuestionService implements QuestionServices {
     @Override
     public Question getRandomQuestion() {
         //получил рандомное число
-        int numberQuestion = (int) (Math.random() * (Integer.MAX_VALUE));
+        int numberQuestion = 2;
+//        (int) (Math.random() * (Integer.MAX_VALUE));
         if (numberQuestion > questions.size()) {
             throw new IllegalArgumentException("Нет вопроса с данным номером");
         }
@@ -44,7 +46,7 @@ public class JavaQuestionService implements QuestionServices {
         Iterator<Question> iterator = questions.iterator();
         Question question = new Question();
         int i = 0;
-        while (i == numberQuestion) {
+        do (i == numberQuestion) {
             question = iterator.next();
             i++;
         }
