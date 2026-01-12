@@ -13,10 +13,6 @@ public class JavaQuestionController {
     @Autowired
     private QuestionServices questionService;
 
-//    public JavaQuestionController(QuestionServices questionService) {
-//        this.questionService = questionService;
-//    }
-
     //   /add?question=QuestionText&answer=QuestionAnswer
     @GetMapping(path = "/add")
     Question addQuestion(@RequestParam("question") String question,

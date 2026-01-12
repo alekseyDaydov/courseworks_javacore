@@ -28,11 +28,11 @@ public class Question {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Question question1 = (Question) o;
-        return Objects.equals(question, question1.question) && Objects.equals(answer, question1.answer);
+        return Objects.equals(question, question1.question);// && Objects.equals(answer, question1.answer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(question, answer);
+        return Objects.hash(question);
     }
 }
