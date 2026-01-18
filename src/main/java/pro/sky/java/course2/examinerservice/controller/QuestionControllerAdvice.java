@@ -15,5 +15,4 @@ public class QuestionControllerAdvice {
     ResponseEntity<QuestionError> noSuchQuestion(NoSuchQuestionException e) {
         return new ResponseEntity<>(new QuestionError(CODE_BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
-
 }

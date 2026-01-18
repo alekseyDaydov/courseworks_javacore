@@ -19,8 +19,7 @@ public class ExamController {
 
     //        /exam/get/{amount}
     @GetMapping("/get/{amount}")
-    Collection<Question> getQuestions(@PathVariable("amount") int amount) {
-
-        return examinerServices.getQuestions(amount);
+    Collection<Question> getQuestions(@PathVariable("amount") String amount) {
+        return examinerServices.getQuestions(Integer.parseInt(amount));
     }
 }

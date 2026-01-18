@@ -8,10 +8,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.java.course2.examinerservice.domain.Question;
 import pro.sky.java.course2.examinerservice.exception.NoSuchQuestionException;
-
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,34 +23,55 @@ class ExaminerServiceImplTest {
     @InjectMocks
     private ExaminerServiceImpl examinerService;
 
+    private final Question question1 = new Question("question1", "answer1");
+    private final Question question2 = new Question("question2", "answer2");
+    private final Question question3 = new Question("question3", "answer3");
+
+    //Ввод: параметр кол-во вопросов равна нулю, вывод пустая коллекция
     @Test
-    void getQuestions_returnsCorrectAmountUniqueQuestions() {
-        // Arrange
-        Question q1 = new Question("q1", "a1");
-        Question q2 = new Question("q2", "a2");
-        Question q3 = new Question("q3", "a3");
-        when(questionServices.getRandomQuestion())
-                .thenReturn(q1, q2, q3, q1); // Repeat q1 to test deduplication
-
-        // Act
-        Collection<Question> result = examinerService.getQuestions(3);
-
-        // Assert
-        assertEquals(3, result.size());
-        assertTrue(result.contains(q1));
-        assertTrue(result.contains(q2));
-        assertTrue(result.contains(q3));
-        verify(questionServices, times(4)).getRandomQuestion();
+    void whenGetQuestion_thenInputZeroAmountReturnEmptyCollection() {
+        Collection<Question> result = examinerService.getQuestions(0);
+        assertTrue(result.isEmpty());
     }
 
+    //Ввод: параметр кол-во вопросов отрицательное число, вывод Исключение
     @Test
-    void getQuestions_returnsEmpty_whenAmountZero() {
-        // Act
-        Collection<Question> result = examinerService.getQuestions(0);
+    void whenGetQuestion_thenInputNegativeAmountReturnThrows() {
+        NoSuchQuestionException result = assertThrows(NoSuchQuestionException.class, () -> examinerService.getQuestions(-1));
+        assertEquals("Ввод отрицательного числа", result.getMessage());
+    }
 
-        // Assert
-        assertTrue(result.isEmpty());
-        verifyNoInteractions(questionServices);
+    // Ввод: параметр кол-во вопросов превышает общее кол-во вопросов в коллекции, вывод Исключение
+    @Test
+    void whenGetQuestion_thenInputAmountMoreAllQuestionsReturnThrows() {
+        when(questionServices.getAll()).thenReturn(Set.of(question1, question2, question3));
+        NoSuchQuestionException result = assertThrows(NoSuchQuestionException.class, () -> examinerService.getQuestions(4));
+        assertEquals("Номер вопроса превышает общее количество вопросов", result.getMessage());
+    }
+
+    //Ввод: параметр кол-ва вопросов не превышает общее кол-во вопросов в коллекции, вывод коллекции из кол-ва вопросов
+    @Test
+    void whenGetQuestion_thenInputTwoAmountAllThreeQuestionsReturnCollectionSizeTwo() {
+        Set<Question> questionSet = Set.of(question1, question2, question3);
+        when(questionServices.getAll()).thenReturn(questionSet);
+        when(questionServices.getRandomQuestion()).thenReturn(question1, question2, question1);
+        Collection<Question> result = examinerService.getQuestions(2);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(question1));
+        assertTrue(result.contains(question2));
+    }
+
+    //Ввод: параметр кол-ва вопросов не превышает общее кол-во вопросов в коллекции, получение пустого Вопроса из метода getRandom вывод коллекции из кол-ва вопросов
+    @Test
+    void whenGetQuestion_thenInputTwoAmountAllThreeQuestionsNullQuestionGetRandomReturnCollectionSizeTwo() {
+        Set<Question> questionSet = Set.of(question1, question2, question3);
+        when(questionServices.getAll()).thenReturn(questionSet);
+        when(questionServices.getRandomQuestion()).thenReturn(null, question1, question2, question1);
+        Collection<Question> result = examinerService.getQuestions(2);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(question1));
+        assertTrue(result.contains(question2));
+        verify(questionServices,atLeast(3)).getRandomQuestion();
     }
 }
 

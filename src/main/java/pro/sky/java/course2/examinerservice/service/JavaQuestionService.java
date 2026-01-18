@@ -41,11 +41,14 @@ public class JavaQuestionService implements QuestionServices {
 
     @Override
     public Question getRandomQuestion() {
-        //получил рандомное число
-        int numberQuestion = (int) (Math.random() * 10); //(Integer.MAX_VALUE));
-        if (numberQuestion > questions.size()) {
-            throw new NoSuchQuestionException("Нет вопроса с данным номером");
+        if (questions.isEmpty()) {
+            return null;
         }
+        //получил рандомное число
+        int max = questions.size();
+        int min = 1;
+        int numberQuestion = (int) (Math.random() * (max - min + 1));
+
         // беру коллекцию и выбираю данное число
         Iterator<Question> iterator = questions.iterator();
         Question question = new Question();
@@ -54,6 +57,6 @@ public class JavaQuestionService implements QuestionServices {
             question = iterator.next();
             i++;
         }
-        return question;
+        return question ; //new ArrayList<>(questions).get(numberQuestion);
     }
 }
